@@ -5,7 +5,6 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from typing import Type
 
-import gdown
 import onnxruntime as ort
 
 from .session_base import BaseSession
@@ -41,14 +40,14 @@ def new_session(model_name: str) -> BaseSession:
     path = Path(home).expanduser() / f"{model_name}.onnx"
     path.parents[0].mkdir(parents=True, exist_ok=True)
 
-    if not path.exists():
-        with redirect_stdout(sys.stderr):
-            gdown.download(url, str(path), use_cookies=False)
-    else:
-        hashing = hashlib.new("md5", path.read_bytes(), usedforsecurity=False)
-        if hashing.hexdigest() != md5:
-            with redirect_stdout(sys.stderr):
-                gdown.download(url, str(path), use_cookies=False)
+    # if not path.exists():
+    #     with redirect_stdout(sys.stderr):
+    #         gdown.download(url, str(path), use_cookies=False)
+    # else:
+    #     hashing = hashlib.new("md5", path.read_bytes(), usedforsecurity=False)
+    #     if hashing.hexdigest() != md5:
+    #         with redirect_stdout(sys.stderr):
+    #             gdown.download(url, str(path), use_cookies=False)
 
     sess_opts = ort.SessionOptions()
 
